@@ -40,7 +40,7 @@ if (isProd) {
   const frontendDist = path.join(__dirname, '../../frontend/dist');
   app.use(express.static(frontendDist));
   // SPA 라우팅: /api 외 모든 경로를 index.html로 처리
-  app.get('*', (_req, res) => {
+  app.get('/{*splat}', (_req, res) => {
     res.sendFile(path.join(frontendDist, 'index.html'));
   });
 }
