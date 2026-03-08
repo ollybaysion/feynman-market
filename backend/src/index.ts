@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { config } from './config.js';
@@ -39,12 +40,22 @@ app.use('/api', apiRouter);
 if (isProd) {
   const frontendDist = process.env.FRONTEND_DIST_PATH
     || path.join(__dirname, '../../frontend/dist');
-  logger.info(`Serving frontend from: ${frontendDist}`);
-  app.use(express.static(frontendDist));
-  // SPA 라우팅: /api 외 모든 경로를 index.html로 처리
-  app.get('/{*splat}', (_req, res) => {
-    res.sendFile(path.join(frontendDist, 'index.html'));
-  });
+  const indexHtml = path.join(frontendDist, 'index.html');
+  const frontendExists = fs.existsSync(indexHtml);
+  logger.info(`Serving frontend from: ${frontendDist} (exists: ${frontendExists})`);
+  if (frontendExists) {
+    app.use(express.static(frontendDist));
+    // SPA 라우팅: /api 외 모든 경로를 index.html로 처리
+    app.get('/{*splat}', (_req, res) => {
+      res.sendFile(indexHtml);
+    });
+  } else {
+    logger.error(`Frontend index.html not found at ${indexHtml}`);
+    try {
+      const parentFiles = fs.readdirSync(path.dirname(frontendDist));
+      logger.error(`Files in ${path.dirname(frontendDist)}: ${parentFiles.join(', ')}`);
+    } catch { /* ignore */ }
+  }
 }
 
 // Error handler
