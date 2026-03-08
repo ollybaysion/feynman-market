@@ -1,22 +1,737 @@
 [
-  {"ticker": "AAPL", "name": "Apple", "nameEn": "Apple Inc.", "market": "NASDAQ", "sector": "Technology"},
-  {"ticker": "MSFT", "name": "Microsoft", "nameEn": "Microsoft Corp.", "market": "NASDAQ", "sector": "Technology"},
-  {"ticker": "GOOGL", "name": "Alphabet", "nameEn": "Alphabet Inc.", "market": "NASDAQ", "sector": "Technology"},
-  {"ticker": "AMZN", "name": "Amazon", "nameEn": "Amazon.com Inc.", "market": "NASDAQ", "sector": "Consumer"},
-  {"ticker": "NVDA", "name": "NVIDIA", "nameEn": "NVIDIA Corp.", "market": "NASDAQ", "sector": "Semiconductors"},
-  {"ticker": "META", "name": "Meta Platforms", "nameEn": "Meta Platforms Inc.", "market": "NASDAQ", "sector": "Technology"},
-  {"ticker": "TSLA", "name": "Tesla", "nameEn": "Tesla Inc.", "market": "NASDAQ", "sector": "Automotive"},
-  {"ticker": "BRK.B", "name": "Berkshire Hathaway", "nameEn": "Berkshire Hathaway Inc.", "market": "NYSE", "sector": "Financial"},
-  {"ticker": "JPM", "name": "JPMorgan Chase", "nameEn": "JPMorgan Chase & Co.", "market": "NYSE", "sector": "Financial"},
-  {"ticker": "V", "name": "Visa", "nameEn": "Visa Inc.", "market": "NYSE", "sector": "Financial"},
-  {"ticker": "UNH", "name": "UnitedHealth", "nameEn": "UnitedHealth Group Inc.", "market": "NYSE", "sector": "Healthcare"},
-  {"ticker": "JNJ", "name": "Johnson & Johnson", "nameEn": "Johnson & Johnson", "market": "NYSE", "sector": "Healthcare"},
-  {"ticker": "WMT", "name": "Walmart", "nameEn": "Walmart Inc.", "market": "NYSE", "sector": "Consumer"},
-  {"ticker": "MA", "name": "Mastercard", "nameEn": "Mastercard Inc.", "market": "NYSE", "sector": "Financial"},
-  {"ticker": "PG", "name": "Procter & Gamble", "nameEn": "Procter & Gamble Co.", "market": "NYSE", "sector": "Consumer"},
-  {"ticker": "AMD", "name": "AMD", "nameEn": "Advanced Micro Devices Inc.", "market": "NASDAQ", "sector": "Semiconductors"},
-  {"ticker": "NFLX", "name": "Netflix", "nameEn": "Netflix Inc.", "market": "NASDAQ", "sector": "Entertainment"},
-  {"ticker": "DIS", "name": "Disney", "nameEn": "The Walt Disney Co.", "market": "NYSE", "sector": "Entertainment"},
-  {"ticker": "INTC", "name": "Intel", "nameEn": "Intel Corp.", "market": "NASDAQ", "sector": "Semiconductors"},
-  {"ticker": "CRM", "name": "Salesforce", "nameEn": "Salesforce Inc.", "market": "NYSE", "sector": "Technology"}
+  {
+    "ticker": "AAPL",
+    "name": "Apple",
+    "nameEn": "Apple Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "MSFT",
+    "name": "Microsoft",
+    "nameEn": "Microsoft Corporation",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "GOOGL",
+    "name": "Alphabet A",
+    "nameEn": "Alphabet Inc. Class A",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "GOOG",
+    "name": "Alphabet C",
+    "nameEn": "Alphabet Inc. Class C",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "AMZN",
+    "name": "Amazon",
+    "nameEn": "Amazon.com Inc.",
+    "market": "NASDAQ",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "NVDA",
+    "name": "NVIDIA",
+    "nameEn": "NVIDIA Corporation",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "META",
+    "name": "Meta Platforms",
+    "nameEn": "Meta Platforms Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "TSLA",
+    "name": "Tesla",
+    "nameEn": "Tesla Inc.",
+    "market": "NASDAQ",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "AVGO",
+    "name": "Broadcom",
+    "nameEn": "Broadcom Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "ADBE",
+    "name": "Adobe",
+    "nameEn": "Adobe Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "CRM",
+    "name": "Salesforce",
+    "nameEn": "Salesforce Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "AMD",
+    "name": "AMD",
+    "nameEn": "Advanced Micro Devices Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "INTC",
+    "name": "Intel",
+    "nameEn": "Intel Corporation",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "ORCL",
+    "name": "Oracle",
+    "nameEn": "Oracle Corporation",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "CSCO",
+    "name": "Cisco",
+    "nameEn": "Cisco Systems Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "NFLX",
+    "name": "Netflix",
+    "nameEn": "Netflix Inc.",
+    "market": "NASDAQ",
+    "sector": "Communication"
+  },
+  {
+    "ticker": "QCOM",
+    "name": "Qualcomm",
+    "nameEn": "Qualcomm Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "TXN",
+    "name": "Texas Instruments",
+    "nameEn": "Texas Instruments Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "INTU",
+    "name": "Intuit",
+    "nameEn": "Intuit Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "AMAT",
+    "name": "Applied Materials",
+    "nameEn": "Applied Materials Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "MU",
+    "name": "Micron",
+    "nameEn": "Micron Technology Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "LRCX",
+    "name": "Lam Research",
+    "nameEn": "Lam Research Corporation",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "KLAC",
+    "name": "KLA Corporation",
+    "nameEn": "KLA Corporation",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SNPS",
+    "name": "Synopsys",
+    "nameEn": "Synopsys Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "CDNS",
+    "name": "Cadence Design",
+    "nameEn": "Cadence Design Systems Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "NOW",
+    "name": "ServiceNow",
+    "nameEn": "ServiceNow Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "PANW",
+    "name": "Palo Alto Networks",
+    "nameEn": "Palo Alto Networks Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "CRWD",
+    "name": "CrowdStrike",
+    "nameEn": "CrowdStrike Holdings Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SNOW",
+    "name": "Snowflake",
+    "nameEn": "Snowflake Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "PLTR",
+    "name": "Palantir",
+    "nameEn": "Palantir Technologies Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SHOP",
+    "name": "Shopify",
+    "nameEn": "Shopify Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "UBER",
+    "name": "Uber",
+    "nameEn": "Uber Technologies Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SQ",
+    "name": "Block",
+    "nameEn": "Block Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "COIN",
+    "name": "Coinbase",
+    "nameEn": "Coinbase Global Inc.",
+    "market": "NASDAQ",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "MRVL",
+    "name": "Marvell Technology",
+    "nameEn": "Marvell Technology Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "ARM",
+    "name": "Arm Holdings",
+    "nameEn": "Arm Holdings plc",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SMCI",
+    "name": "Super Micro Computer",
+    "nameEn": "Super Micro Computer Inc.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "BRK.B",
+    "name": "Berkshire Hathaway B",
+    "nameEn": "Berkshire Hathaway Inc. Class B",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "JPM",
+    "name": "JPMorgan Chase",
+    "nameEn": "JPMorgan Chase & Co.",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "V",
+    "name": "Visa",
+    "nameEn": "Visa Inc.",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "MA",
+    "name": "Mastercard",
+    "nameEn": "Mastercard Inc.",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "BAC",
+    "name": "Bank of America",
+    "nameEn": "Bank of America Corporation",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "GS",
+    "name": "Goldman Sachs",
+    "nameEn": "The Goldman Sachs Group Inc.",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "MS",
+    "name": "Morgan Stanley",
+    "nameEn": "Morgan Stanley",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "PYPL",
+    "name": "PayPal",
+    "nameEn": "PayPal Holdings Inc.",
+    "market": "NASDAQ",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "C",
+    "name": "Citigroup",
+    "nameEn": "Citigroup Inc.",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "WFC",
+    "name": "Wells Fargo",
+    "nameEn": "Wells Fargo & Company",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "SCHW",
+    "name": "Charles Schwab",
+    "nameEn": "The Charles Schwab Corporation",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "BLK",
+    "name": "BlackRock",
+    "nameEn": "BlackRock Inc.",
+    "market": "NYSE",
+    "sector": "Financial"
+  },
+  {
+    "ticker": "UNH",
+    "name": "UnitedHealth",
+    "nameEn": "UnitedHealth Group Inc.",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "JNJ",
+    "name": "Johnson & Johnson",
+    "nameEn": "Johnson & Johnson",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "LLY",
+    "name": "Eli Lilly",
+    "nameEn": "Eli Lilly and Company",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ABBV",
+    "name": "AbbVie",
+    "nameEn": "AbbVie Inc.",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "MRK",
+    "name": "Merck",
+    "nameEn": "Merck & Co. Inc.",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "PFE",
+    "name": "Pfizer",
+    "nameEn": "Pfizer Inc.",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "NVO",
+    "name": "Novo Nordisk",
+    "nameEn": "Novo Nordisk A/S",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "TMO",
+    "name": "Thermo Fisher",
+    "nameEn": "Thermo Fisher Scientific Inc.",
+    "market": "NYSE",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "AMGN",
+    "name": "Amgen",
+    "nameEn": "Amgen Inc.",
+    "market": "NASDAQ",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "GILD",
+    "name": "Gilead Sciences",
+    "nameEn": "Gilead Sciences Inc.",
+    "market": "NASDAQ",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ISRG",
+    "name": "Intuitive Surgical",
+    "nameEn": "Intuitive Surgical Inc.",
+    "market": "NASDAQ",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "WMT",
+    "name": "Walmart",
+    "nameEn": "Walmart Inc.",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "COST",
+    "name": "Costco",
+    "nameEn": "Costco Wholesale Corporation",
+    "market": "NASDAQ",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "PG",
+    "name": "Procter & Gamble",
+    "nameEn": "The Procter & Gamble Company",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "KO",
+    "name": "Coca-Cola",
+    "nameEn": "The Coca-Cola Company",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "PEP",
+    "name": "PepsiCo",
+    "nameEn": "PepsiCo Inc.",
+    "market": "NASDAQ",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "MCD",
+    "name": "McDonald's",
+    "nameEn": "McDonald's Corporation",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "NKE",
+    "name": "Nike",
+    "nameEn": "Nike Inc.",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "SBUX",
+    "name": "Starbucks",
+    "nameEn": "Starbucks Corporation",
+    "market": "NASDAQ",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "DIS",
+    "name": "Walt Disney",
+    "nameEn": "The Walt Disney Company",
+    "market": "NYSE",
+    "sector": "Communication"
+  },
+  {
+    "ticker": "HD",
+    "name": "Home Depot",
+    "nameEn": "The Home Depot Inc.",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "LOW",
+    "name": "Lowe's",
+    "nameEn": "Lowe's Companies Inc.",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "TGT",
+    "name": "Target",
+    "nameEn": "Target Corporation",
+    "market": "NYSE",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "BKNG",
+    "name": "Booking Holdings",
+    "nameEn": "Booking Holdings Inc.",
+    "market": "NASDAQ",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "ABNB",
+    "name": "Airbnb",
+    "nameEn": "Airbnb Inc.",
+    "market": "NASDAQ",
+    "sector": "Consumer"
+  },
+  {
+    "ticker": "XOM",
+    "name": "Exxon Mobil",
+    "nameEn": "Exxon Mobil Corporation",
+    "market": "NYSE",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "CVX",
+    "name": "Chevron",
+    "nameEn": "Chevron Corporation",
+    "market": "NYSE",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "COP",
+    "name": "ConocoPhillips",
+    "nameEn": "ConocoPhillips",
+    "market": "NYSE",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "CAT",
+    "name": "Caterpillar",
+    "nameEn": "Caterpillar Inc.",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "BA",
+    "name": "Boeing",
+    "nameEn": "The Boeing Company",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "GE",
+    "name": "GE Aerospace",
+    "nameEn": "GE Aerospace",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "HON",
+    "name": "Honeywell",
+    "nameEn": "Honeywell International Inc.",
+    "market": "NASDAQ",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "UPS",
+    "name": "UPS",
+    "nameEn": "United Parcel Service Inc.",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "LMT",
+    "name": "Lockheed Martin",
+    "nameEn": "Lockheed Martin Corporation",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "RTX",
+    "name": "RTX Corporation",
+    "nameEn": "RTX Corporation",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "DE",
+    "name": "Deere & Company",
+    "nameEn": "Deere & Company",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "MMM",
+    "name": "3M",
+    "nameEn": "3M Company",
+    "market": "NYSE",
+    "sector": "Industrial"
+  },
+  {
+    "ticker": "T",
+    "name": "AT&T",
+    "nameEn": "AT&T Inc.",
+    "market": "NYSE",
+    "sector": "Communication"
+  },
+  {
+    "ticker": "VZ",
+    "name": "Verizon",
+    "nameEn": "Verizon Communications Inc.",
+    "market": "NYSE",
+    "sector": "Communication"
+  },
+  {
+    "ticker": "TMUS",
+    "name": "T-Mobile",
+    "nameEn": "T-Mobile US Inc.",
+    "market": "NASDAQ",
+    "sector": "Communication"
+  },
+  {
+    "ticker": "TSM",
+    "name": "TSMC",
+    "nameEn": "Taiwan Semiconductor Manufacturing",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "ASML",
+    "name": "ASML",
+    "nameEn": "ASML Holding N.V.",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "ON",
+    "name": "ON Semiconductor",
+    "nameEn": "ON Semiconductor Corporation",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "MSTR",
+    "name": "MicroStrategy",
+    "nameEn": "MicroStrategy Incorporated",
+    "market": "NASDAQ",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "DELL",
+    "name": "Dell Technologies",
+    "nameEn": "Dell Technologies Inc.",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "HPE",
+    "name": "Hewlett Packard Enterprise",
+    "nameEn": "Hewlett Packard Enterprise Company",
+    "market": "NYSE",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SPY",
+    "name": "SPDR S&P 500 ETF",
+    "nameEn": "SPDR S&P 500 ETF Trust",
+    "market": "NYSE",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "QQQ",
+    "name": "Invesco QQQ",
+    "nameEn": "Invesco QQQ Trust",
+    "market": "NASDAQ",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "IWM",
+    "name": "iShares Russell 2000",
+    "nameEn": "iShares Russell 2000 ETF",
+    "market": "NYSE",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "SOXX",
+    "name": "iShares Semiconductor",
+    "nameEn": "iShares Semiconductor ETF",
+    "market": "NASDAQ",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "ARKK",
+    "name": "ARK Innovation",
+    "nameEn": "ARK Innovation ETF",
+    "market": "NYSE",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "VOO",
+    "name": "Vanguard S&P 500",
+    "nameEn": "Vanguard S&P 500 ETF",
+    "market": "NYSE",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "VTI",
+    "name": "Vanguard Total Stock",
+    "nameEn": "Vanguard Total Stock Market ETF",
+    "market": "NYSE",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "DIA",
+    "name": "SPDR Dow Jones",
+    "nameEn": "SPDR Dow Jones Industrial Average ETF",
+    "market": "NYSE",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "SOXL",
+    "name": "Direxion Semiconductor Bull 3X",
+    "nameEn": "Direxion Daily Semiconductor Bull 3X",
+    "market": "NYSE",
+    "sector": "ETF"
+  },
+  {
+    "ticker": "TQQQ",
+    "name": "ProShares UltraPro QQQ",
+    "nameEn": "ProShares UltraPro QQQ",
+    "market": "NASDAQ",
+    "sector": "ETF"
+  }
 ]

@@ -90,14 +90,22 @@ function runMigrations(db: Database.Database) {
 }
 
 function seedStocks(db: Database.Database) {
-  const count = (db.prepare('SELECT COUNT(*) as cnt FROM stocks').get() as any).cnt;
-  if (count > 0) return; // Already seeded
-
   const seedDir = path.join(path.dirname(config.database.path), 'seeds');
   const files = ['kr-stocks.json', 'us-stocks.json'];
 
+  let seedTotal = 0;
+  for (const file of files) {
+    const filePath = path.join(seedDir, file);
+    if (!fs.existsSync(filePath)) continue;
+    const stocks = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    seedTotal += stocks.length;
+  }
+
+  const dbCount = (db.prepare('SELECT COUNT(*) as cnt FROM stocks').get() as any).cnt;
+  if (dbCount >= seedTotal && seedTotal > 0) return;
+
   const insert = db.prepare(`
-    INSERT OR IGNORE INTO stocks (ticker, name, name_en, market, sector, updated_at)
+    INSERT OR REPLACE INTO stocks (ticker, name, name_en, market, sector, updated_at)
     VALUES (?, ?, ?, ?, ?, unixepoch())
   `);
 

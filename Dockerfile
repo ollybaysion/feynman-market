@@ -35,4 +35,7 @@ ENV DATABASE_PATH=/data/market.db
 
 EXPOSE 4000
 
+# Use tini for proper signal handling
+RUN apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "dist/index.js"]
