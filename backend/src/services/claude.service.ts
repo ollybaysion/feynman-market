@@ -138,6 +138,56 @@ keyIssues는 3~5개, 각 항목은 30자 이내로 간결하게 작성하세요.
     };
   },
 
+  async analyzeIssue(topic: string, keywords: string[], articles: NewsArticle[], previousSummary?: string): Promise<{
+    summary: string;
+    sentiment: 'bullish' | 'bearish' | 'neutral';
+    sentimentScore: number;
+  }> {
+    const anthropic = getClient();
+
+    const newsText = articles
+      .slice(0, 15)
+      .map((a, i) => `[${i + 1}] ${a.title}\n${a.description || ''}\n출처: ${a.source || ''} | ${a.publishedAt}`)
+      .join('\n\n');
+
+    const previousContext = previousSummary
+      ? `\n\n이전 분석 요약:\n${previousSummary}\n\n위 이전 분석과 비교하여 새로운 변화나 진전이 있으면 언급하세요.`
+      : '';
+
+    const systemPrompt = `당신은 특정 시장 이슈를 추적 분석하는 전문 애널리스트입니다.
+주제: "${topic}"
+관련 키워드: ${keywords.join(', ')}
+
+주어진 뉴스 기사들을 분석하여 이 주제에 대한 최신 상황을 정리하세요.
+반드시 다음 JSON 형식으로만 응답하세요:
+
+{
+  "summary": "이 이슈의 현재 상황을 3-5문장으로 정리. 핵심 수치나 사실 포함.",
+  "sentiment": "bullish" | "bearish" | "neutral" (시장에 미치는 영향 기준),
+  "sentimentScore": 0~100 (50=중립)
+}
+
+반드시 유효한 JSON만 출력하세요.`;
+
+    const message = await anthropic.messages.create({
+      model: config.anthropic.model,
+      max_tokens: 1024,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: `다음 뉴스를 분석해주세요:${previousContext}\n\n${newsText}` }],
+    });
+
+    const text = message.content[0].type === 'text' ? message.content[0].text : '';
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON in Claude issue analysis response');
+
+    const parsed = JSON.parse(jsonMatch[0]);
+    return {
+      summary: parsed.summary || '',
+      sentiment: parsed.sentiment || 'neutral',
+      sentimentScore: parsed.sentimentScore ?? 50,
+    };
+  },
+
   async generateReportTitle(kr: MarketRegionBrief, us: MarketRegionBrief): Promise<string> {
     const anthropic = getClient();
     const prompt = `다음은 오늘의 한국/미국 주식 시장 분석입니다.

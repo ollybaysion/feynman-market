@@ -61,3 +61,29 @@ export interface MarketReportListItem {
   usSentimentScore: number;
   createdAt: number;
 }
+
+// --- Issue Tracker ---
+export interface IssueTracker {
+  id: number;
+  title: string;
+  keywords: string[];
+  description: string;
+  status: 'active' | 'archived';
+  createdAt: number;
+}
+
+export interface IssueEntry {
+  id: number;
+  trackerId: number;
+  date: string;
+  summary: string;
+  sentiment: 'bullish' | 'bearish' | 'neutral';
+  sentimentScore: number;
+  articles: { title: string; url: string; source: string; publishedAt: string }[];
+  createdAt: number;
+}
+
+export interface IssueTrackerDetail extends IssueTracker {
+  entries: IssueEntry[];
+  totalEntries: number;
+}

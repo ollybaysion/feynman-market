@@ -99,6 +99,28 @@ function runMigrations(db: Database.Database) {
       updated_at INTEGER DEFAULT (unixepoch())
     );
     CREATE UNIQUE INDEX IF NOT EXISTS idx_reports_date ON market_reports(date);
+
+    CREATE TABLE IF NOT EXISTS issue_trackers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      keywords TEXT NOT NULL,
+      description TEXT DEFAULT '',
+      status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active', 'archived')),
+      created_at INTEGER DEFAULT (unixepoch())
+    );
+
+    CREATE TABLE IF NOT EXISTS issue_entries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      tracker_id INTEGER NOT NULL REFERENCES issue_trackers(id) ON DELETE CASCADE,
+      date TEXT NOT NULL,
+      summary TEXT NOT NULL,
+      sentiment TEXT CHECK(sentiment IN ('bullish', 'bearish', 'neutral')),
+      sentiment_score REAL,
+      articles TEXT,
+      created_at INTEGER DEFAULT (unixepoch()),
+      UNIQUE(tracker_id, date)
+    );
+    CREATE INDEX IF NOT EXISTS idx_issue_entries_tracker ON issue_entries(tracker_id, date DESC);
   `);
 }
 
