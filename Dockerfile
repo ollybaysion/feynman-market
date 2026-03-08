@@ -4,7 +4,7 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
-RUN npm run build && ls -la dist/ && ls -la dist/assets/
+RUN npm run build
 
 # Stage 2: Build backend
 FROM node:22-alpine AS backend-build
@@ -25,7 +25,6 @@ RUN npm ci --omit=dev
 # Copy built files
 COPY --from=backend-build /app/backend/dist ./dist
 COPY --from=frontend-build /app/frontend/dist ./frontend-dist
-RUN ls -la ./frontend-dist/ && cat ./frontend-dist/index.html | head -5
 COPY backend/data/seeds ./data/seeds
 
 RUN mkdir -p /data
