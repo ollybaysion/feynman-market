@@ -44,9 +44,10 @@ if (isProd) {
   const frontendExists = fs.existsSync(indexHtml);
   logger.info(`Serving frontend from: ${frontendDist} (exists: ${frontendExists})`);
   if (frontendExists) {
-    app.use(express.static(frontendDist));
+    app.use(express.static(frontendDist, { index: 'index.html' }));
     // SPA 라우팅: /api 외 모든 경로를 index.html로 처리
-    app.get('/{*splat}', (_req, res) => {
+    app.use((req, res, next) => {
+      if (req.path.startsWith('/api')) return next();
       res.sendFile(indexHtml);
     });
   } else {
