@@ -30,10 +30,7 @@ COPY backend/data/seeds ./data/seeds
 RUN mkdir -p /data
 
 ENV NODE_ENV=production
-ENV PORT=4000
 ENV DATABASE_PATH=/data/market.db
-
-EXPOSE 4000
 
 # Use tini for proper signal handling
 RUN apk add --no-cache tini
