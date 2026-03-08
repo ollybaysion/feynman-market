@@ -86,6 +86,19 @@ function runMigrations(db: Database.Database) {
       change_percent REAL,
       updated_at INTEGER DEFAULT (unixepoch())
     );
+
+    CREATE TABLE IF NOT EXISTS market_reports (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date TEXT NOT NULL,
+      title TEXT NOT NULL,
+      indices_snapshot TEXT,
+      kr_analysis TEXT,
+      us_analysis TEXT,
+      sources TEXT,
+      created_at INTEGER DEFAULT (unixepoch()),
+      updated_at INTEGER DEFAULT (unixepoch())
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_reports_date ON market_reports(date);
   `);
 }
 

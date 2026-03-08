@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { config } from '../config.js';
 import { logger } from '../utils/logger.js';
-import type { NewsArticle, AISummary, MarketBrief } from '../types/news.js';
+import type { NewsArticle, AISummary, MarketBrief, MarketRegionBrief } from '../types/news.js';
 
 let client: Anthropic | null = null;
 
@@ -136,5 +136,36 @@ keyIssues는 3~5개, 각 항목은 30자 이내로 간결하게 작성하세요.
       },
       generatedAt: now.toISOString(),
     };
+  },
+
+  async generateReportTitle(kr: MarketRegionBrief, us: MarketRegionBrief): Promise<string> {
+    const anthropic = getClient();
+    const prompt = `다음은 오늘의 한국/미국 주식 시장 분석입니다.
+
+한국: ${kr.summary} (${kr.sentiment}, ${kr.sentimentScore}점)
+주요 이슈: ${kr.keyIssues.join(', ')}
+
+미국: ${us.summary} (${us.sentiment}, ${us.sentimentScore}점)
+주요 이슈: ${us.keyIssues.join(', ')}
+
+이 분석을 바탕으로 오늘의 시장 상황을 요약하는 한국어 제목을 하나만 작성하세요.
+- 40자 이내
+- 핵심 이슈 중심
+- 신문 헤드라인 스타일
+- 제목만 출력, 따옴표 없이`;
+
+    try {
+      const message = await anthropic.messages.create({
+        model: config.anthropic.model,
+        max_tokens: 100,
+        messages: [{ role: 'user', content: prompt }],
+      });
+      const text = message.content[0].type === 'text' ? message.content[0].text : '';
+      return text.trim().replace(/^["']|["']$/g, '').substring(0, 50);
+    } catch (err) {
+      logger.error('Title generation failed:', err);
+      const today = new Date().toLocaleDateString('ko-KR');
+      return `${today} 시장 분석 리포트`;
+    }
   },
 };

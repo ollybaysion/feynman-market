@@ -32,3 +32,32 @@ export interface MarketBrief {
   us: MarketRegionBrief;
   generatedAt: string;
 }
+
+export interface MarketReport {
+  id?: number;
+  date: string;
+  title: string;
+  indicesSnapshot: {
+    symbol: string;
+    name: string;
+    value: number;
+    change: number;
+    changePercent: number;
+  }[];
+  krAnalysis: MarketRegionBrief;
+  usAnalysis: MarketRegionBrief;
+  sources: { title: string; url: string; source: string; market: 'KR' | 'US' }[];
+  createdAt?: number;
+  updatedAt?: number;
+}
+
+export interface MarketReportListItem {
+  id: number;
+  date: string;
+  title: string;
+  krSentiment: 'bullish' | 'bearish' | 'neutral';
+  usSentiment: 'bullish' | 'bearish' | 'neutral';
+  krSentimentScore: number;
+  usSentimentScore: number;
+  createdAt: number;
+}
