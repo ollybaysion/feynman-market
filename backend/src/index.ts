@@ -37,7 +37,9 @@ app.use('/api', apiRouter);
 
 // 프로덕션: 빌드된 프론트엔드 정적 파일 서빙
 if (isProd) {
-  const frontendDist = path.join(__dirname, '../../frontend/dist');
+  const frontendDist = process.env.FRONTEND_DIST_PATH
+    || path.join(__dirname, '../../frontend/dist');
+  logger.info(`Serving frontend from: ${frontendDist}`);
   app.use(express.static(frontendDist));
   // SPA 라우팅: /api 외 모든 경로를 index.html로 처리
   app.get('/{*splat}', (_req, res) => {
