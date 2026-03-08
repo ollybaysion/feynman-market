@@ -36,27 +36,19 @@ app.use('/api', apiLimiter);
 // API routes
 app.use('/api', apiRouter);
 
-// 프로덕션: 빌드된 프론트엔드 정적 파일 서빙
-if (isProd) {
-  const frontendDist = process.env.FRONTEND_DIST_PATH
-    || path.join(__dirname, '../../frontend/dist');
-  const indexHtml = path.join(frontendDist, 'index.html');
-  const frontendExists = fs.existsSync(indexHtml);
-  logger.info(`Serving frontend from: ${frontendDist} (exists: ${frontendExists})`);
-  if (frontendExists) {
-    app.use(express.static(frontendDist, { index: 'index.html' }));
-    // SPA 라우팅: /api 외 모든 경로를 index.html로 처리
-    app.use((req, res, next) => {
-      if (req.path.startsWith('/api')) return next();
-      res.sendFile(indexHtml);
-    });
-  } else {
-    logger.error(`Frontend index.html not found at ${indexHtml}`);
-    try {
-      const parentFiles = fs.readdirSync(path.dirname(frontendDist));
-      logger.error(`Files in ${path.dirname(frontendDist)}: ${parentFiles.join(', ')}`);
-    } catch { /* ignore */ }
-  }
+// 프론트엔드 정적 파일 서빙 (빌드된 파일이 있으면 항상 서빙)
+const frontendDist = process.env.FRONTEND_DIST_PATH
+  || path.join(__dirname, '../../frontend/dist');
+const indexHtml = path.join(frontendDist, 'index.html');
+const frontendExists = fs.existsSync(indexHtml);
+logger.info(`Frontend path: ${frontendDist} (exists: ${frontendExists}), NODE_ENV: ${config.nodeEnv}`);
+if (frontendExists) {
+  app.use(express.static(frontendDist, { index: 'index.html' }));
+  // SPA 라우팅: /api 외 모든 경로를 index.html로 처리
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(indexHtml);
+  });
 }
 
 // Error handler
