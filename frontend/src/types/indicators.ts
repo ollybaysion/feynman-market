@@ -1,7 +1,7 @@
 export interface IndicatorQuote {
   symbol: string;
   name: string;
-  category: 'forex' | 'commodity' | 'bond' | 'volatility' | 'crypto';
+  category: 'index' | 'forex' | 'commodity' | 'agriculture' | 'bond' | 'volatility' | 'crypto';
   price: number;
   change: number;
   changePercent: number;
