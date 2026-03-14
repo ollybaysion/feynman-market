@@ -2,10 +2,12 @@ import axios from 'axios';
 import { config } from '../config.js';
 import { logger } from '../utils/logger.js';
 
+export type IndicatorCategory = 'index' | 'forex' | 'commodity' | 'agriculture' | 'bond' | 'volatility' | 'crypto';
+
 export interface IndicatorQuote {
   symbol: string;
   name: string;
-  category: 'forex' | 'commodity' | 'bond' | 'volatility' | 'crypto';
+  category: IndicatorCategory;
   price: number;
   change: number;
   changePercent: number;
@@ -28,24 +30,42 @@ export interface IndicatorChart {
 }
 
 // Twelve Data symbols mapping
+// Note: Futures (GC, SI) and direct indices (SPX, DJI) require paid plans.
+// Using ETFs as proxies where needed.
 const INDICATORS = {
+  index: [
+    { symbol: 'SPY', name: 'S&P 500 (ETF)' },
+    { symbol: 'QQQ', name: 'NASDAQ 100 (ETF)' },
+    { symbol: 'DIA', name: '다우존스 (ETF)' },
+    { symbol: 'UUP', name: '달러 인덱스 (ETF)' },
+  ],
   forex: [
     { symbol: 'USD/KRW', name: '달러/원' },
     { symbol: 'EUR/KRW', name: '유로/원' },
     { symbol: 'JPY/KRW', name: '엔/원' },
     { symbol: 'EUR/USD', name: '유로/달러' },
     { symbol: 'USD/JPY', name: '달러/엔' },
+    { symbol: 'GBP/USD', name: '파운드/달러' },
+    { symbol: 'USD/CNY', name: '달러/위안' },
   ],
   commodity: [
-    { symbol: 'XAU/USD', name: '금' },
-    { symbol: 'XAG/USD', name: '은' },
-    { symbol: 'WT', name: 'WTI 원유' },
-    { symbol: 'BRN', name: '브렌트유' },
+    { symbol: 'XAU/USD', name: '금 (현물)' },
+    { symbol: 'XAG/USD', name: '은 (현물)' },
+    { symbol: 'GLD', name: '금 (ETF)' },
+    { symbol: 'SLV', name: '은 (ETF)' },
+    { symbol: 'USO', name: 'WTI 원유 (ETF)' },
     { symbol: 'NG', name: '천연가스' },
     { symbol: 'HG', name: '구리' },
   ],
+  agriculture: [
+    { symbol: 'CORN', name: '옥수수 (ETF)' },
+    { symbol: 'WEAT', name: '소맥 (ETF)' },
+    { symbol: 'SOYB', name: '대두 (ETF)' },
+  ],
   bond: [
-    { symbol: 'TNXS', name: '미국 10년 국채' },
+    { symbol: 'TLT', name: '미국 장기 국채 (ETF)' },
+    { symbol: 'IEF', name: '미국 중기 국채 (ETF)' },
+    { symbol: 'SHY', name: '미국 단기 국채 (ETF)' },
   ],
   volatility: [
     { symbol: 'VIX', name: 'VIX 변동성' },
@@ -112,16 +132,18 @@ export const indicatorsService = {
 
   async getAllQuotes(): Promise<IndicatorQuote[]> {
     const allIndicators = [
+      ...INDICATORS.index.map(i => ({ ...i, category: 'index' as const })),
       ...INDICATORS.forex.map(i => ({ ...i, category: 'forex' as const })),
       ...INDICATORS.commodity.map(i => ({ ...i, category: 'commodity' as const })),
+      ...INDICATORS.agriculture.map(i => ({ ...i, category: 'agriculture' as const })),
       ...INDICATORS.bond.map(i => ({ ...i, category: 'bond' as const })),
       ...INDICATORS.volatility.map(i => ({ ...i, category: 'volatility' as const })),
       ...INDICATORS.crypto.map(i => ({ ...i, category: 'crypto' as const })),
     ];
 
-    // Fetch in small batches (max 8 credits/min on free plan)
-    // Each quote = ~2 credits, so fetch 3-4 at a time with delays
-    const BATCH_SIZE = 3;
+    // Twelve Data free plan: 8 API credits/min, 800/day
+    // Each symbol in a batch = 1 credit
+    const BATCH_SIZE = 4;
     const BATCH_DELAY = 8500; // ~8.5s between batches to stay under rate limit
     const results: IndicatorQuote[] = [];
 
@@ -167,8 +189,10 @@ export const indicatorsService = {
 
   async getChart(symbol: string, days = 90): Promise<IndicatorChart | null> {
     const allIndicators = [
+      ...INDICATORS.index.map(i => ({ ...i, category: 'index' })),
       ...INDICATORS.forex.map(i => ({ ...i, category: 'forex' })),
       ...INDICATORS.commodity.map(i => ({ ...i, category: 'commodity' })),
+      ...INDICATORS.agriculture.map(i => ({ ...i, category: 'agriculture' })),
       ...INDICATORS.bond.map(i => ({ ...i, category: 'bond' })),
       ...INDICATORS.volatility.map(i => ({ ...i, category: 'volatility' })),
       ...INDICATORS.crypto.map(i => ({ ...i, category: 'crypto' })),

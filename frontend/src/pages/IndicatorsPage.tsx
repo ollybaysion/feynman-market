@@ -6,14 +6,16 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import type { IndicatorQuote } from '../types/indicators';
 
 const CATEGORY_LABELS: Record<string, string> = {
+  index: '주요 지수',
   forex: '환율',
   commodity: '원자재',
+  agriculture: '농산물',
   bond: '채권',
   volatility: '변동성',
   crypto: '암호화폐',
 };
 
-const CATEGORY_ORDER = ['forex', 'commodity', 'bond', 'volatility', 'crypto'];
+const CATEGORY_ORDER = ['index', 'forex', 'commodity', 'agriculture', 'bond', 'volatility', 'crypto'];
 
 function QuoteCard({
   quote,
