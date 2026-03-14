@@ -119,53 +119,50 @@ export const indicatorsService = {
       ...INDICATORS.crypto.map(i => ({ ...i, category: 'crypto' as const })),
     ];
 
-    // Batch request with comma-separated symbols
-    const symbols = allIndicators.map(i => i.symbol).join(',');
-    try {
-      const res = await axios.get(`${BASE_URL}/quote`, {
-        params: { symbol: symbols, apikey: config.twelveData.apiKey },
-        timeout: 15000,
-      });
+    // Fetch in small batches (max 8 credits/min on free plan)
+    // Each quote = ~2 credits, so fetch 3-4 at a time with delays
+    const BATCH_SIZE = 3;
+    const BATCH_DELAY = 8500; // ~8.5s between batches to stay under rate limit
+    const results: IndicatorQuote[] = [];
 
-      const results: IndicatorQuote[] = [];
-      // When multiple symbols, response is an object keyed by symbol
-      const data = Array.isArray(res.data) ? res.data :
-        typeof res.data === 'object' && res.data.close ? [res.data] :
-        Object.values(res.data);
-
-      for (const d of data as any[]) {
-        if (!d || d.status === 'error' || !d.close) continue;
-        const indicator = allIndicators.find(i => i.symbol === d.symbol);
-        if (!indicator) continue;
-        results.push({
-          symbol: indicator.symbol,
-          name: indicator.name,
-          category: indicator.category,
-          price: parseFloat(d.close),
-          change: parseFloat(d.change || '0'),
-          changePercent: parseFloat(d.percent_change || '0'),
-          updatedAt: d.datetime || new Date().toISOString(),
-        });
+    for (let i = 0; i < allIndicators.length; i += BATCH_SIZE) {
+      if (i > 0) {
+        await new Promise(resolve => setTimeout(resolve, BATCH_DELAY));
       }
-      return results;
-    } catch (err: any) {
-      logger.error('Twelve Data batch quote error:', err.message);
-      // Fallback: fetch individually
-      const results: IndicatorQuote[] = [];
-      for (const indicator of allIndicators) {
-        const quote = await fetchQuote(indicator.symbol);
-        if (quote) {
+      const batch = allIndicators.slice(i, i + BATCH_SIZE);
+      const symbols = batch.map(b => b.symbol).join(',');
+
+      try {
+        const res = await axios.get(`${BASE_URL}/quote`, {
+          params: { symbol: symbols, apikey: config.twelveData.apiKey },
+          timeout: 15000,
+        });
+
+        // Single symbol returns object directly, multiple returns keyed object
+        const data = batch.length === 1
+          ? [res.data]
+          : Object.values(res.data);
+
+        for (const d of data as any[]) {
+          if (!d || d.status === 'error' || !d.close) continue;
+          const indicator = batch.find(b => b.symbol === d.symbol);
+          if (!indicator) continue;
           results.push({
             symbol: indicator.symbol,
             name: indicator.name,
             category: indicator.category,
-            ...quote,
-            updatedAt: new Date().toISOString(),
+            price: parseFloat(d.close),
+            change: parseFloat(d.change || '0'),
+            changePercent: parseFloat(d.percent_change || '0'),
+            updatedAt: d.datetime || new Date().toISOString(),
           });
         }
+      } catch (err: any) {
+        logger.warn(`Twelve Data batch error for [${symbols}]:`, err.message);
       }
-      return results;
     }
+
+    return results;
   },
 
   async getChart(symbol: string, days = 90): Promise<IndicatorChart | null> {
