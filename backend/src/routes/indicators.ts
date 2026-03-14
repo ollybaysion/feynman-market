@@ -8,7 +8,7 @@ const router = Router();
 
 // In-memory cache for quotes (refreshes every 10 minutes)
 let quotesCache: { data: IndicatorQuote[]; cachedAt: number } | null = null;
-const QUOTES_TTL = 10 * 60 * 1000; // 10 minutes
+const QUOTES_TTL = 30 * 60 * 1000; // 30 minutes
 
 // In-memory cache for charts (refreshes every 1 hour)
 const chartCache = new Map<string, { data: IndicatorChart; cachedAt: number }>();
