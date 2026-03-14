@@ -7,7 +7,7 @@ const TTL = {
   priceOff: 86400,     // 24 hours when market closed
   news: 21600,         // 6 hours
   aiSummary: 86400,    // 24 hours
-  marketBrief: 10800,  // 3 hours
+  marketBrief: 86400,  // 24 hours
 };
 
 function now() {
