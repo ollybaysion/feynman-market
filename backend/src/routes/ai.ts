@@ -18,7 +18,7 @@ router.get('/summary/:ticker', aiLimiter, async (req, res) => {
     const stockName = String(req.query.name || '') || ticker;
 
     // Check cache first
-    const cached = cacheService.getAISummary(ticker);
+    const cached = await cacheService.getAISummary(ticker);
     if (cached) {
       const response: ApiResponse<AISummary> = { success: true, data: cached, cached: true };
       return res.json(response);
@@ -43,7 +43,7 @@ router.get('/summary/:ticker', aiLimiter, async (req, res) => {
     const summary = await claudeService.summarizeNews(ticker, stockName, articles);
 
     // Cache result
-    cacheService.setAISummary(summary);
+    await cacheService.setAISummary(summary);
 
     const response: ApiResponse<AISummary> = { success: true, data: summary };
     res.json(response);
@@ -60,7 +60,7 @@ router.get('/market-brief', aiLimiter, async (req, res) => {
 
     // Check cache (24-hour TTL) unless force refresh
     if (!forceRefresh) {
-      const cached = cacheService.getMarketBrief();
+      const cached = await cacheService.getMarketBrief();
       if (cached) {
         const response: ApiResponse<MarketBrief> = { success: true, data: cached, cached: true };
         return res.json(response);
@@ -81,7 +81,7 @@ router.get('/market-brief', aiLimiter, async (req, res) => {
     }
 
     const brief = await claudeService.generateMarketBrief(kr, us);
-    cacheService.setMarketBrief(brief);
+    await cacheService.setMarketBrief(brief);
 
     const response: ApiResponse<MarketBrief> = { success: true, data: brief };
     res.json(response);

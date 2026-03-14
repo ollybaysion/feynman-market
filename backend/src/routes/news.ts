@@ -15,7 +15,7 @@ router.get('/latest', async (req, res) => {
     const limit = parseInt(String(req.query.limit || '20'), 10);
 
     // Check cache
-    const cached = cacheService.getLatestNewsCache(market, limit);
+    const cached = await cacheService.getLatestNewsCache(market, limit);
     if (cached) {
       const response: ApiResponse<NewsArticle[]> = { success: true, data: cached, cached: true };
       return res.json(response);
@@ -46,7 +46,7 @@ router.get('/stock/:ticker', async (req, res) => {
     const market = String(req.query.market || '') || (/^\d{6}$/.test(ticker) ? 'KR' : 'US');
 
     // Check cache
-    const cached = cacheService.getNewsCache(ticker, days);
+    const cached = await cacheService.getNewsCache(ticker, days);
     if (cached) {
       const response: ApiResponse<NewsArticle[]> = { success: true, data: cached, cached: true };
       return res.json(response);
@@ -63,7 +63,7 @@ router.get('/stock/:ticker', async (req, res) => {
 
     // Cache results
     if (articles.length > 0) {
-      cacheService.setNewsCache(ticker, articles);
+      await cacheService.setNewsCache(ticker, articles);
     }
 
     const response: ApiResponse<NewsArticle[]> = { success: true, data: articles };

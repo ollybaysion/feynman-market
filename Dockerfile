@@ -27,10 +27,7 @@ COPY --from=backend-build /app/backend/dist ./dist
 COPY --from=frontend-build /app/frontend/dist ./frontend-dist
 COPY backend/data/seeds ./data/seeds
 
-RUN mkdir -p /data
-
 ENV NODE_ENV=production
-ENV DATABASE_PATH=/data/market.db
 ENV FRONTEND_DIST_PATH=/app/backend/frontend-dist
 
 # Use tini for proper signal handling

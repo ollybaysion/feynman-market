@@ -7,10 +7,10 @@ import type { ApiResponse } from '../types/market.js';
 const router = Router();
 
 // List all trackers
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const status = req.query.status as 'active' | 'archived' | undefined;
-    const trackers = issueTrackerService.list(status);
+    const trackers = await issueTrackerService.list(status);
     const response: ApiResponse<typeof trackers> = { success: true, data: trackers };
     res.json(response);
   } catch (err: any) {
@@ -20,13 +20,13 @@ router.get('/', (req, res) => {
 });
 
 // Create tracker
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { title, keywords, description } = req.body;
     if (!title || !keywords || !Array.isArray(keywords) || keywords.length === 0) {
       return res.status(400).json({ success: false, error: '제목과 키워드를 입력해주세요.' });
     }
-    const tracker = issueTrackerService.create(title, keywords, description || '');
+    const tracker = await issueTrackerService.create(title, keywords, description || '');
     const response: ApiResponse<typeof tracker> = { success: true, data: tracker };
     res.status(201).json(response);
   } catch (err: any) {
@@ -36,11 +36,11 @@ router.post('/', (req, res) => {
 });
 
 // Get tracker detail with entries
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const id = parseInt(String(req.params.id), 10);
     const page = Math.max(1, parseInt(String(req.query.page || '1'), 10));
-    const detail = issueTrackerService.getDetail(id, page);
+    const detail = await issueTrackerService.getDetail(id, page);
     if (!detail) {
       return res.status(404).json({ success: false, error: '이슈 트래커를 찾을 수 없습니다.' });
     }
@@ -66,14 +66,14 @@ router.post('/:id/track', aiLimiter, async (req, res) => {
 });
 
 // Update status (archive/activate)
-router.patch('/:id/status', (req, res) => {
+router.patch('/:id/status', async (req, res) => {
   try {
     const id = parseInt(String(req.params.id), 10);
     const { status } = req.body;
     if (!['active', 'archived'].includes(status)) {
       return res.status(400).json({ success: false, error: 'Invalid status' });
     }
-    const ok = issueTrackerService.updateStatus(id, status);
+    const ok = await issueTrackerService.updateStatus(id, status);
     if (!ok) return res.status(404).json({ success: false, error: 'Not found' });
     res.json({ success: true });
   } catch (err: any) {
@@ -83,10 +83,10 @@ router.patch('/:id/status', (req, res) => {
 });
 
 // Delete tracker
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const id = parseInt(String(req.params.id), 10);
-    const ok = issueTrackerService.delete(id);
+    const ok = await issueTrackerService.delete(id);
     if (!ok) return res.status(404).json({ success: false, error: 'Not found' });
     res.json({ success: true });
   } catch (err: any) {

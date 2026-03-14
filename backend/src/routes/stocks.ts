@@ -26,7 +26,7 @@ router.get('/search', async (req, res) => {
     }
 
     // Search local DB first
-    let results = cacheService.searchStocks(q, market);
+    let results = await cacheService.searchStocks(q, market);
 
     // If no local results for US stocks, try Finnhub
     if (results.length === 0 && (!market || market === 'US')) {
@@ -75,7 +75,7 @@ router.get('/:ticker/chart', async (req, res) => {
     const days = parseInt(String(req.query.days || '30'), 10);
 
     // Check cache
-    const cached = cacheService.getPriceCache(ticker, days);
+    const cached = await cacheService.getPriceCache(ticker, days);
     if (cached) {
       const response: ApiResponse<OHLCV[]> = { success: true, data: cached, cached: true };
       return res.json(response);
@@ -111,7 +111,7 @@ router.get('/:ticker/chart', async (req, res) => {
 
     // Store in cache
     if (chart.length > 0) {
-      cacheService.setPriceCache(ticker, chart);
+      await cacheService.setPriceCache(ticker, chart);
     }
 
     const response: ApiResponse<OHLCV[]> = { success: true, data: chart };
