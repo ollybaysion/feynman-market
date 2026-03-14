@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Star, Clock, Globe, Flag, FileText, Crosshair } from 'lucide-react';
+import { LayoutDashboard, Star, Clock, Globe, Flag, FileText, Crosshair, BarChart3 } from 'lucide-react';
 import { useAppStore } from '../../store/app.store';
 
 export function Sidebar() {
@@ -38,6 +38,15 @@ export function Sidebar() {
         >
           <Crosshair size={16} />
           이슈 트래커
+        </button>
+        <button
+          onClick={() => navigate('/indicators')}
+          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+            location.pathname.startsWith('/indicators') ? 'bg-primary-50 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-50'
+          }`}
+        >
+          <BarChart3 size={16} />
+          시장 지표
         </button>
       </nav>
 
