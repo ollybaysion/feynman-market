@@ -20,9 +20,11 @@ export async function initDatabase(): Promise<void> {
   pool = new Pool({
     connectionString: config.database.url,
     max: 10,
-    ssl: config.database.url.includes('railway') || config.database.url.includes('ssl')
-      ? { rejectUnauthorized: false }
-      : undefined,
+    ssl: config.database.url.includes('.railway.internal')
+      ? false
+      : config.database.url.includes('railway') || config.database.url.includes('ssl')
+        ? { rejectUnauthorized: false }
+        : undefined,
   });
 
   // Test connection
