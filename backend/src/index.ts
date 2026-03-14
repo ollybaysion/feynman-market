@@ -57,7 +57,7 @@ app.use(errorHandler);
 // Initialize and start
 async function start() {
   try {
-    initDatabase();
+    await initDatabase();
     startScheduler();
 
     app.listen(config.port, () => {
@@ -71,9 +71,9 @@ async function start() {
 }
 
 // Graceful shutdown
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
   logger.info('Shutting down...');
-  closeDatabase();
+  await closeDatabase();
   process.exit(0);
 });
 

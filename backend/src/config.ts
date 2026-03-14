@@ -29,6 +29,6 @@ export const config = {
   },
 
   database: {
-    path: process.env.DATABASE_PATH || './data/market.db',
+    url: process.env.DATABASE_URL || 'postgresql://localhost:5432/market',
   },
 } as const;

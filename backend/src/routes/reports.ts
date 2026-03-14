@@ -8,10 +8,10 @@ import type { MarketReport, MarketReportListItem } from '../types/news.js';
 const router = Router();
 
 // Get sentiment trend (must be before /:id to avoid matching "trend" as an id)
-router.get('/trend/sentiment', (req, res) => {
+router.get('/trend/sentiment', async (req, res) => {
   try {
     const days = Math.min(90, Math.max(7, parseInt(String(req.query.days || '30'), 10)));
-    const trend = reportService.getTrend(days);
+    const trend = await reportService.getTrend(days);
     const response: ApiResponse<typeof trend> = { success: true, data: trend };
     res.json(response);
   } catch (err: any) {
@@ -21,11 +21,11 @@ router.get('/trend/sentiment', (req, res) => {
 });
 
 // List reports with pagination
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const page = Math.max(1, parseInt(String(req.query.page || '1'), 10));
     const limit = Math.min(50, Math.max(1, parseInt(String(req.query.limit || '20'), 10)));
-    const result = reportService.getReports(page, limit);
+    const result = await reportService.getReports(page, limit);
     const response: ApiResponse<{ reports: MarketReportListItem[]; total: number; page: number; limit: number }> = {
       success: true,
       data: { ...result, page, limit },
@@ -50,10 +50,10 @@ router.post('/generate', aiLimiter, async (_req, res) => {
 });
 
 // Get single report (after specific routes to avoid conflicts)
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const id = parseInt(String(req.params.id), 10);
-    const report = reportService.getReport(id);
+    const report = await reportService.getReport(id);
     if (!report) {
       return res.status(404).json({ success: false, error: '리포트를 찾을 수 없습니다.' });
     }
