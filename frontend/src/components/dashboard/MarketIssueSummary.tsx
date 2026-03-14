@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Sparkles, RefreshCw, TrendingUp, TrendingDown, Minus, ChevronRight } from 'lucide-react';
 import { useMarketBrief } from '../../hooks/useMarketBrief';
 import { LoadingSpinner } from '../common/LoadingSpinner';
@@ -94,15 +93,15 @@ function RegionBriefCard({
 }
 
 export function MarketIssueSummary() {
-  const [enabled, setEnabled] = useState(false);
-  const { data, isLoading, error, refetch, isFetching } = useMarketBrief(enabled);
+  const { data, isLoading, error, refresh, isFetching } = useMarketBrief();
 
   const generatedTimeAgo = data?.generatedAt
     ? (() => {
         const diff = Math.floor((Date.now() - new Date(data.generatedAt).getTime()) / 60000);
         if (diff < 1) return '방금 전';
         if (diff < 60) return `${diff}분 전`;
-        return `${Math.floor(diff / 60)}시간 전`;
+        if (diff < 1440) return `${Math.floor(diff / 60)}시간 전`;
+        return `${Math.floor(diff / 1440)}일 전`;
       })()
     : null;
 
@@ -117,45 +116,28 @@ export function MarketIssueSummary() {
             <span className="text-xs font-normal text-gray-400 ml-1">· {generatedTimeAgo} 업데이트</span>
           )}
         </h2>
-        {enabled && (
-          <button
-            onClick={() => refetch()}
-            disabled={isFetching}
-            className="text-gray-400 hover:text-purple-600 p-1 disabled:opacity-40 transition-colors"
-            title="다시 분석"
-          >
-            <RefreshCw size={14} className={isFetching ? 'animate-spin' : ''} />
-          </button>
-        )}
+        <button
+          onClick={refresh}
+          disabled={isFetching}
+          className="text-gray-400 hover:text-purple-600 p-1 disabled:opacity-40 transition-colors"
+          title="새로 분석"
+        >
+          <RefreshCw size={14} className={isFetching ? 'animate-spin' : ''} />
+        </button>
       </div>
 
       {/* States */}
-      {!enabled && (
-        <div className="text-center py-6">
-          <Sparkles size={32} className="mx-auto mb-3 text-purple-300" />
-          <p className="text-sm text-gray-500 mb-1">AI가 한국·미국 시장 주요 이슈를 분석합니다</p>
-          <p className="text-xs text-gray-400 mb-4">뉴스를 수집하여 핵심 이슈와 시장 심리를 요약합니다</p>
-          <button
-            onClick={() => setEnabled(true)}
-            className="px-5 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            <Sparkles size={14} className="inline mr-1.5" />
-            AI 분석 시작
-          </button>
-        </div>
-      )}
-
-      {enabled && isLoading && (
+      {isLoading && (
         <LoadingSpinner text="AI가 시장 뉴스를 분석하고 있습니다..." />
       )}
 
-      {enabled && error && !isLoading && (
+      {error && !isLoading && (
         <div className="text-center py-6">
           <p className="text-sm text-gray-500 mb-3">
             {(error as Error).message || '시장 브리핑을 불러올 수 없습니다.'}
           </p>
           <button
-            onClick={() => refetch()}
+            onClick={refresh}
             className="text-xs text-purple-600 hover:underline"
           >
             다시 시도

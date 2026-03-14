@@ -9,7 +9,9 @@ export async function getAISummary(ticker: string, market?: string, name?: strin
   return res.data.data;
 }
 
-export async function getMarketBrief(): Promise<MarketBrief> {
-  const res = await apiClient.get('/ai/market-brief');
+export async function getMarketBrief(refresh = false): Promise<MarketBrief> {
+  const params: Record<string, string> = {};
+  if (refresh) params.refresh = 'true';
+  const res = await apiClient.get('/ai/market-brief', { params });
   return res.data.data;
 }

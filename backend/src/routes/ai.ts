@@ -54,13 +54,17 @@ router.get('/summary/:ticker', aiLimiter, async (req, res) => {
 });
 
 // Get AI market brief (KR + US key issues summary)
-router.get('/market-brief', aiLimiter, async (_req, res) => {
+router.get('/market-brief', aiLimiter, async (req, res) => {
   try {
-    // Check cache (3-hour TTL)
-    const cached = cacheService.getMarketBrief();
-    if (cached) {
-      const response: ApiResponse<MarketBrief> = { success: true, data: cached, cached: true };
-      return res.json(response);
+    const forceRefresh = req.query.refresh === 'true';
+
+    // Check cache (24-hour TTL) unless force refresh
+    if (!forceRefresh) {
+      const cached = cacheService.getMarketBrief();
+      if (cached) {
+        const response: ApiResponse<MarketBrief> = { success: true, data: cached, cached: true };
+        return res.json(response);
+      }
     }
 
     // Fetch market news from both regions in parallel
