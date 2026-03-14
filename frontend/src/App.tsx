@@ -9,6 +9,7 @@ import { ReportsPage } from './pages/ReportsPage';
 import { ReportDetailPage } from './pages/ReportDetailPage';
 import { IssueTrackersPage } from './pages/IssueTrackersPage';
 import { IssueTrackerDetailPage } from './pages/IssueTrackerDetailPage';
+import { IndicatorsPage } from './pages/IndicatorsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/reports/:id" element={<ReportDetailPage />} />
             <Route path="/issues" element={<IssueTrackersPage />} />
             <Route path="/issues/:id" element={<IssueTrackerDetailPage />} />
+            <Route path="/indicators" element={<IndicatorsPage />} />
           </Routes>
         </PageLayout>
         <Toaster position="bottom-right" />

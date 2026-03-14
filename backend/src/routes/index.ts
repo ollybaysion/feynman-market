@@ -6,6 +6,7 @@ import aiRouter from './ai.js';
 import sseRouter from './sse.js';
 import reportsRouter from './reports.js';
 import issueTrackersRouter from './issue-trackers.js';
+import indicatorsRouter from './indicators.js';
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/ai', aiRouter);
 router.use('/sse', sseRouter);
 router.use('/reports', reportsRouter);
 router.use('/issues', issueTrackersRouter);
+router.use('/indicators', indicatorsRouter);
 
 // Health check
 router.get('/health', (_req, res) => {
